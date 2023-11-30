@@ -42,6 +42,7 @@ from typing import TYPE_CHECKING, Optional
 
 script_dir = os.path.dirname(os.path.realpath(__file__))
 is_pyinstaller = getattr(sys, 'frozen', False)
+is_local = not is_bundle and os.path.exists(os.path.join(script_dir, "electrum-glc.desktop"))
 is_android = 'ANDROID_DATA' in os.environ
 is_appimage = 'APPIMAGE' in os.environ
 is_binary_distributable = is_pyinstaller or is_android or is_appimage
