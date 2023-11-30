@@ -6,9 +6,9 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN dpkg --add-architecture i386 && \
     apt-get update -q && \
     apt-get install -qy \
-        gnupg2=2.2.40-1.1 \
-        dirmngr=2.2.40-1.1 \
-        dirmngr=2.2.19-3ubuntu2.1 \
+        wget=1.20.3-1ubuntu1 \
+        gnupg2 \
+        dirmngr \
         python3-software-properties=0.98.9.2 \
         software-properties-common=0.98.9.2 \
         && \
