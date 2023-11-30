@@ -288,7 +288,7 @@ class Coinbase(ExchangeBase):
 
     async def get_rates(self, ccy):
         json = await self.get_json('api.coinbase.com',
-                             '/v2/exchange-rates?currency=BTC')
+                             '/v2/exchange-rates?currency=GLC')
         return {ccy: to_decimal(rate) for (ccy, rate) in json["data"]["rates"].items()}
 
 
@@ -342,9 +342,9 @@ class CoinDesk(ExchangeBase):
 class CoinGecko(ExchangeBase):
 
     async def get_rates(self, ccy):
-        json = await self.get_json('api.coingecko.com', '/api/v3/exchange_rates')
-        return dict([(ccy.upper(), to_decimal(d['value']))
-                     for ccy, d in json['rates'].items()])
+        json = await self.get_json('api.coingecko.com', '/api/v3/coins/goldcoin?localization=false&tickers=false&community_data=false&developer_data=false&sparkline=false')
+        return dict([(ccy.upper(), Decimal(d))
+                     for ccy, d in json['market_data']['current_price'].items()])
 
     def history_ccys(self):
         # CoinGecko seems to have historical data for all ccys it supports
@@ -352,7 +352,7 @@ class CoinGecko(ExchangeBase):
 
     async def request_history(self, ccy):
         history = await self.get_json('api.coingecko.com',
-                                      '/api/v3/coins/bitcoin/market_chart?vs_currency=%s&days=max' % ccy)
+                                      '/api/v3/coins/litecoin/market_chart?vs_currency=%s&days=max' % ccy)
 
         return dict([(datetime.utcfromtimestamp(h[0]/1000).strftime('%Y-%m-%d'), str(h[1]))
                      for h in history['prices']])
