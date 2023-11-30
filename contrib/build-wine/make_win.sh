@@ -25,7 +25,7 @@ export CONTRIB="$here/.."
 export PROJECT_ROOT="$CONTRIB/.."
 export CACHEDIR="$here/.cache/$WIN_ARCH/build"
 export PIP_CACHE_DIR="$here/.cache/$WIN_ARCH/wine_pip_cache"
-export WINE_PIP_CACHE_DIR="c:/electrum/contrib/build-wine/.cache/$WIN_ARCH/wine_pip_cache"
+export WINE_PIP_CACHE_DIR="c:/electrum-glc/contrib/build-
 export DLL_TARGET_DIR="$CACHEDIR/dlls"
 
 export WINEPREFIX="/opt/wine64"
@@ -33,7 +33,7 @@ export WINEDEBUG=-all
 export WINE_PYHOME="c:/python3"
 export WINE_PYTHON="wine $WINE_PYHOME/python.exe -B"
 
-. "$CONTRIB"/build_tools_util.sh
+. /opt/wine64/drive_c/electrum-goldcoin/contrib/build-wine/build_tools_util.sh
 
 git -C "$PROJECT_ROOT" rev-parse 2>/dev/null || fail "Building outside a git clone is not supported."
 
