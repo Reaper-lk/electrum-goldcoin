@@ -32,6 +32,13 @@ from . import constants
 from .util import bfh, with_lock
 from .logging import get_logger, Logger
 
+try:
+    import scrypt
+    getPoWHash = lambda x: scrypt.hash(x, x, N=1024, r=1, p=1, buflen=32)
+except ImportError:
+    util.print_msg("Warning: package scrypt not available; synchronization could be very slow")
+    from .scrypt import scrypt_1024_1_1_80 as getPoWHash
+
 if TYPE_CHECKING:
     from .simple_config import SimpleConfig
 
@@ -39,8 +46,8 @@ _logger = get_logger(__name__)
 
 HEADER_SIZE = 80  # bytes
 
-# see https://github.com/bitcoin/bitcoin/blob/feedb9c84e72e4fff489810a2bbeec09bcda5763/src/chainparams.cpp#L76
-MAX_TARGET = 0x00000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffff  # compact: 0x1d00ffff
+
+MAX_TARGET = 0x00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff  
 
 
 class MissingHeader(Exception):
@@ -84,6 +91,10 @@ def hash_header(header: dict) -> str:
 
 def hash_raw_header(header: str) -> str:
     return hash_encode(sha256d(bfh(header)))
+
+def pow_hash_header(header):
+    return hash_encode(getPoWHash(bfh(serialize_header(header))))
+
 
 
 pow_hash_header = hash_header
@@ -300,6 +311,7 @@ class Blockchain(Logger):
     @classmethod
     def verify_header(cls, header: dict, prev_hash: str, target: int, expected_header_hash: str=None) -> None:
         _hash = hash_header(header)
+        
         if expected_header_hash and expected_header_hash != _hash:
             raise InvalidHeader("hash mismatches with expected: {} vs {}".format(expected_header_hash, _hash))
         if prev_hash != header.get('prev_block_hash'):
@@ -493,7 +505,7 @@ class Blockchain(Logger):
         if not header:
             return True
         # note: We check the timestamp only in the latest header.
-        #       The Bitcoin consensus has a lot of leeway here:
+        #       Goldcoin has a lot of leeway here:
         #       - needs to be greater than the median of the timestamps of the past 11 blocks, and
         #       - up to at most 2 hours into the future compared to local clock
         #       so there is ~2 hours of leeway in either direction
@@ -620,25 +632,31 @@ class Blockchain(Logger):
 
     def can_connect(self, header: dict, check_height: bool=True) -> bool:
         if header is None:
+            print("header is none")
             return False
         height = header['block_height']
         if check_height and self.height() != height - 1:
+            print("check_height")
             return False
         if height == 0:
             return hash_header(header) == constants.net.GENESIS
         try:
             prev_hash = self.get_hash(height - 1)
         except Exception:
+            print("didn't connect: no prev hash for height")
             return False
         if prev_hash != header.get('prev_block_hash'):
+            print("didn't connect")
             return False
         try:
             target = self.get_target(height // 2016 - 1)
         except MissingHeader:
+            print("missing header")
             return False
         try:
             self.verify_header(header, prev_hash, target)
         except BaseException as e:
+            print("cannot verify")
             return False
         return True
 
