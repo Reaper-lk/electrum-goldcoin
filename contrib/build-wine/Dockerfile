@@ -43,7 +43,6 @@ RUN wget -nc https://dl.winehq.org/wine-builds/Release.key && \
     wget -nc https://dl.winehq.org/wine-builds/winehq.key && \
         echo "78b185fabdb323971d13bd329fefc8038e08559aa51c4996de18db0639a51df6 winehq.key" | sha256sum -c - && \
         apt-key add winehq.key && \
-        rm winehq.key && \
     apt-add-repository https://dl.winehq.org/wine-builds/debian/ && \
     apt-get update -q && \
     apt-get install -qy --allow-downgrades \
@@ -58,12 +57,15 @@ RUN wget -nc https://dl.winehq.org/wine-builds/Release.key && \
     apt-get autoremove -y && \
     apt-get clean
 
-
 # create new user to avoid using root; but with sudo access and no password for convenience.
 ENV USER="user"
 ENV HOME_DIR="/home/${USER}"
 ENV WORK_DIR="${HOME_DIR}/wspace" \
     PATH="${HOME_DIR}/.local/bin:${PATH}"
+
+# Set up the build environment
+COPY build_tools_util.sh /home/debian/electrum-glc/contrib/
+COPY make_win.sh /home/debian/electrum-glc/contrib/build_wine/
 
 RUN groupadd --gid 1000 ${USER} && \
     useradd --uid 1000 --gid ${USER} --create-home --shell /bin/bash ${USER} && \
@@ -77,4 +79,3 @@ RUN chown ${USER}:${USER} /opt
 USER ${USER}
 
 RUN mkdir --parents "/opt/wine64/drive_c/electrum"
-
