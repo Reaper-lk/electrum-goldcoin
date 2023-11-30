@@ -6,7 +6,7 @@ PROJECT_ROOT="$(dirname "$(readlink -e "$0")")/../../.."
 CONTRIB="$PROJECT_ROOT/contrib"
 CONTRIB_SDIST="$CONTRIB/build-linux/sdist"
 DISTDIR="$PROJECT_ROOT/dist"
-LOCALE="$PROJECT_ROOT/electrum/locale"
+LOCALE="$PROJECT_ROOT/electrum-glc/locale/"
 
 . "$CONTRIB"/build_tools_util.sh
 
