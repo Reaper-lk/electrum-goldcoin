@@ -100,10 +100,9 @@ class BitcoinMainnet(AbstractNet):
         'p2wsh':       0x02aa7ed3,  # Zpub
     }
     XPUB_HEADERS_INV = inv_dict(XPUB_HEADERS)
-    BIP44_COIN_TYPE = 0
+    BIP44_COIN_TYPE = 8
     LN_REALM_BYTE = 0
-    LN_DNS_SEEDS = [
-    ]
+    LN_DNS_SEEDS = []
 
 
 class BitcoinTestnet(AbstractNet):
@@ -182,8 +181,8 @@ class BitcoinSignet(BitcoinTestnet):
 
     NET_NAME = "mainnet"
     TESTNET = False
-    WIF_PREFIX = 0x80 + 0x20
-    ADDRTYPE_P2PKH = 0x20
+    WIF_PREFIX = 0xA0
+    ADDRTYPE_P2PKH = 32
     ADDRTYPE_P2SH = 5
     SEGWIT_HRP = "glc"
     BOLT11_HRP = SEGWIT_HRP
