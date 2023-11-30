@@ -65,7 +65,7 @@ ENV WORK_DIR="${HOME_DIR}/wspace" \
 
 # Set up the build environment
 COPY build_tools_util.sh /home/debian/electrum-goldcoin/contrib/build_tools_util.sh
-COPY make_win.sh /home/debian/electrum-glc/contrib/build_wine/
+COPY make_win.sh /home/debian/electrum-goldcoin/contrib/build_wine/
 
 RUN groupadd --gid 1000 ${USER} && \
     useradd --uid 1000 --gid ${USER} --create-home --shell /bin/bash ${USER} && \
