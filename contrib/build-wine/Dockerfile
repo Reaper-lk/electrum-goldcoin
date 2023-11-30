@@ -55,4 +55,4 @@ RUN wget -nc https://dl.winehq.org/wine-builds/Release.key && \
     apt-get clean
 
 
-    COPY make_win.sh /build/make_win.sh
+    COPY make_win.sh /opt/wine64/drive_c/electrum-goldcoin/contrib/build-wine/make_win.sh
