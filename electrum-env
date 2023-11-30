@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
 # This script creates a virtualenv named 'env' and installs all
-# python dependencies before activating the env and running Electrum.
+# python dependencies before activating the env and running Electrum-GLC.
 # If 'env' already exists, it is activated and Electrum is started
 # without any installations. Additionally, the PYTHONPATH environment
 # variable is set so that system packages such as e.g. apt installed
