@@ -33,7 +33,7 @@ export WINEDEBUG=-all
 export WINE_PYHOME="c:/python3"
 export WINE_PYTHON="wine $WINE_PYHOME/python.exe -B"
 
-. /opt/wine64/drive_c/electrum-goldcoin/contrib/build-wine/build_tools_util.sh
+. "$CONTRIB"/build_tools_util.sh
 
 git -C "$PROJECT_ROOT" rev-parse 2>/dev/null || fail "Building outside a git clone is not supported."
 
