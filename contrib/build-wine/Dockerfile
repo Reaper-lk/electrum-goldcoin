@@ -53,3 +53,6 @@ RUN wget -nc https://dl.winehq.org/wine-builds/Release.key && \
     rm -rf /var/lib/apt/lists/* && \
     apt-get autoremove -y && \
     apt-get clean
+
+
+    COPY make_win.sh /build/make_win.sh
