@@ -57,4 +57,4 @@ RUN wget -nc https://dl.winehq.org/wine-builds/Release.key && \
 
     COPY make_win.sh /opt/wine64/drive_c/electrum-goldcoin/contrib/build-wine/make_win.sh
 
-    COPY build_tools_util.sh /opt/wine64/drive_c/electrum-goldcoin/contrib/build_tools_util.sh
+    COPY build_tools_util.sh /opt/wine64/drive_c/electrum-goldcoin/contrib/build-wine/build_tools_util.sh
