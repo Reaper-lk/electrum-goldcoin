@@ -35,13 +35,16 @@ export WINE_PYTHON="wine $WINE_PYHOME/python.exe -B"
 
 . "$CONTRIB"/build_tools_util.sh
 
-git -C "$PROJECT_ROOT" rev-parse 2>/dev/null || fail "Building outside a git clone is not supported."
+# Commenting out the Git check
+# git -C "$PROJECT_ROOT" rev-parse 2>/dev/null || fail "Building outside a git clone is not supported."
 
 info "Clearing $here/build and $here/dist..."
 rm "$here"/build/* -rf
 rm "$here"/dist/* -rf
 
 mkdir -p "$CACHEDIR" "$DLL_TARGET_DIR" "$PIP_CACHE_DIR"
+
+
 
 if [ -f "$DLL_TARGET_DIR/libsecp256k1-2.dll" ]; then
     info "libsecp256k1 already built, skipping"
